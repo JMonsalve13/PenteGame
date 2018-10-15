@@ -23,5 +23,49 @@ namespace PenteGame
         {
             InitializeComponent();
         }
+
+        private void rbtnTwo_Click(object sender, RoutedEventArgs e)
+        {
+            tbxSecondPlayer.IsEnabled = true;
+            btnSubmit.IsEnabled = true;
+        }
+
+        private void rbtnOne_Click(object sender, RoutedEventArgs e)
+        {
+            tbxSecondPlayer.IsEnabled = false;
+            tbxSecondPlayer.Text = "";
+            btnSubmit.IsEnabled = true;
+        }
+
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            if (rbtnOne.IsChecked == true)
+            {
+                if (!String.IsNullOrEmpty(tbxFirstPlayer.Text))
+                {
+                    GameWindow game = new GameWindow(false, tbxFirstPlayer.Text, "CPU");
+                    game.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a name for player one!");
+                }
+            }
+            if (rbtnTwo.IsChecked == true)
+            {
+                if (!String.IsNullOrEmpty(tbxFirstPlayer.Text) && !String.IsNullOrEmpty(tbxSecondPlayer.Text))
+                {
+                    GameWindow game = new GameWindow(true, tbxFirstPlayer.Text, tbxSecondPlayer.Text);
+                    game.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Player one and two need a name!");
+                }
+            }
+        }
     }
+
 }

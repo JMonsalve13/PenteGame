@@ -20,7 +20,7 @@ namespace PenteGame
     /// </summary>
     public partial class GameWindow : Window
     {
-        public GameWindow()
+        public GameWindow(bool twoPlayers, string p1, string p2)
         {
             InitializeComponent();
         }
