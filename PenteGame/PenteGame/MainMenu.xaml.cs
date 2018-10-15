@@ -23,6 +23,8 @@ namespace PenteGame
         public MainMenu()
         {
             InitializeComponent();
+            Controllers.GameBacking controller = new Controllers.GameBacking();
+            controller.printBoard();
         }
         //Brings the player to a game settings screen
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
