@@ -8,12 +8,12 @@
         Title="Setup" Height="450" Width="800">
 	<Viewbox>
 		<StackPanel>
-			<Label Content="Setup" FontSize="30" Margin="10"></Label>
+			<Label Content="Setup" FontSize="30" Margin="10" HorizontalAlignment="Center"></Label>
 			<Label Content="Players:" VerticalAlignment="Center"></Label>
 			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition Height="35"></RowDefinition>
-					<RowDefinition Height="35"></RowDefinition>
+					<RowDefinition Height="40"></RowDefinition>
+					<RowDefinition Height="40"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition></ColumnDefinition>
