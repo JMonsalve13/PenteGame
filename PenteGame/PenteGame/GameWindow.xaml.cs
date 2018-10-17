@@ -23,23 +23,37 @@ namespace PenteGame
     {
         List<string> players = new List<string>();
         //The main game window
-        public GameWindow(bool twoPlayers, string p1, string p2)
+        public GameWindow(bool twoPlayers, string p1, string p2, int boardSize)
         {
             InitializeComponent();
+
             players.Add(p1);
             players.Add(p2);
             lblGameInfo.Content = $"{players[0]}'s turn!";
+
             GameBacking game = new GameBacking();
-            FillGrid(game);
+            game.CreateBoard(boardSize);
+
+            for (int i = 0; i < game.Board.GetLength(0); i++)
+            {
+                ColumnDefinition gridCol = new ColumnDefinition();
+                grdGameGrid.ColumnDefinitions.Add(gridCol);
+                RowDefinition gridRow = new RowDefinition();
+                grdGameGrid.RowDefinitions.Add(gridRow);
+            }
+
+            FillGrid(game, boardSize);
         }
         //Can be called to update or fill the game grid based on the given a 2d array
-        private void FillGrid(GameBacking game)
+        private void FillGrid(GameBacking game, int size)
         {
-            for (int i = 0; i < 19; i++)
-                for (int j = 0; j < 19; j++)
+            grdGameGrid.Children.Clear();
+
+            for (int i = 0; i < size; i++)
+                for (int j = 0; j < size; j++)
                 {
                     {
-                        if(game.Board[i][j] == true)
+                        if (game.Board[i][j] == true)
                         {
                             Ellipse piece = new Ellipse();
                             piece.Fill = Brushes.White;

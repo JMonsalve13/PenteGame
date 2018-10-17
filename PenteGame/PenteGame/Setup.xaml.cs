@@ -22,6 +22,16 @@ namespace PenteGame
         public Setup()
         {
             InitializeComponent();
+            List<int> oddNums = new List<int>();
+            for (int i = 9; i < 40; i++)
+            {
+                if (i % 2 != 0)
+                {
+                    oddNums.Add(i);
+                    cbxBoardSize.Items.Add(i);
+                }
+            }
+            cbxBoardSize.SelectedItem = cbxBoardSize.Items[0];
         }
         //Enable the submit button and enable player 2 text box
         private void rbtnTwo_Click(object sender, RoutedEventArgs e)
@@ -43,7 +53,7 @@ namespace PenteGame
             {
                 if (!String.IsNullOrEmpty(tbxFirstPlayer.Text))
                 {
-                    GameWindow game = new GameWindow(false, tbxFirstPlayer.Text, "CPU");
+                    GameWindow game = new GameWindow(false, tbxFirstPlayer.Text, "CPU", (int)cbxBoardSize.SelectedItem);
                     game.Show();
                     Close();
                 }
@@ -56,7 +66,7 @@ namespace PenteGame
             {
                 if (!String.IsNullOrEmpty(tbxFirstPlayer.Text) && !String.IsNullOrEmpty(tbxSecondPlayer.Text))
                 {
-                    GameWindow game = new GameWindow(true, tbxFirstPlayer.Text, tbxSecondPlayer.Text);
+                    GameWindow game = new GameWindow(true, tbxFirstPlayer.Text, tbxSecondPlayer.Text, (int)cbxBoardSize.SelectedItem);
                     game.Show();
                     Close();
                 }

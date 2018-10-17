@@ -14,15 +14,18 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="40"></RowDefinition>
 					<RowDefinition Height="40"></RowDefinition>
+					<RowDefinition></RowDefinition>
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition></ColumnDefinition>
 					<ColumnDefinition></ColumnDefinition>
 				</Grid.ColumnDefinitions>
-			<RadioButton Name="rbtnOne" GroupName="numPlayers" Content="One" Margin="10" Grid.Row="0" Grid.Column="0" Click="rbtnOne_Click"></RadioButton>
-			<TextBox Name="tbxFirstPlayer" Width="150" Grid.Row="0" Grid.Column="1" Margin="10"></TextBox>
-			<RadioButton Name="rbtnTwo" GroupName="numPlayers" Content="Two" Margin="10" Grid.Row="1" Grid.Column="0" Click="rbtnTwo_Click"></RadioButton>
-			<TextBox Name="tbxSecondPlayer" Grid.Row="1" Grid.Column="1" Width="150" Margin="10" IsEnabled="False"></TextBox>
+				<RadioButton Name="rbtnOne" GroupName="numPlayers" Content="One" Margin="10" Grid.Row="0" Grid.Column="0" Click="rbtnOne_Click"></RadioButton>
+				<TextBox Name="tbxFirstPlayer" Width="150" Grid.Row="0" Grid.Column="1" Margin="10"></TextBox>
+				<RadioButton Name="rbtnTwo" GroupName="numPlayers" Content="Two" Margin="10" Grid.Row="1" Grid.Column="0" Click="rbtnTwo_Click"></RadioButton>
+				<TextBox Name="tbxSecondPlayer" Grid.Row="1" Grid.Column="1" Width="150" Margin="10" IsEnabled="False"></TextBox>
+				<ComboBox Name="cbxBoardSize" Width="80" Height="25" Grid.Column="1" Grid.Row="2"></ComboBox>
+				<Label Content="Size:" Grid.Column="0" Grid.Row="2"></Label>
 			</Grid>
 			<Button Name="btnSubmit" Content="Submit" Width="50" Margin="10" IsEnabled="False" Click="btnSubmit_Click"></Button>
 
