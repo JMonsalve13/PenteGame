@@ -94,7 +94,7 @@ namespace PenteGame.Controllers
         private bool IsInsideTheBoard(params int[] array) {
             bool isInsideBoard = true;
             foreach (int i in array) {
-                isInsideBoard = i > 0 && i < Size-1;
+                isInsideBoard = i >= 0 && i < Size;
             }
             return isInsideBoard;
         }
