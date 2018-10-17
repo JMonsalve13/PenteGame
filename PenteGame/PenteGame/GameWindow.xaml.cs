@@ -23,7 +23,7 @@ namespace PenteGame
     {
         List<string> players = new List<string>();
         //The main game window
-        public GameWindow(bool twoPlayers, string p1, string p2)
+        public GameWindow(bool twoPlayers, string p1, string p2, int boardSize)
         {
             InitializeComponent();
             players.Add(p1);
@@ -35,6 +35,7 @@ namespace PenteGame
         //Can be called to update or fill the game grid based on the given a 2d array
         private void FillGrid(GameBacking game)
         {
+            
             for (int i = 0; i < 19; i++)
                 for (int j = 0; j < 19; j++)
                 {
@@ -78,7 +79,7 @@ namespace PenteGame
         private void turn(object sender, MouseButtonEventArgs e)
         {
             var point = Mouse.GetPosition(grdGameGrid);
-
+            
             int row = 0;
             int col = 0;
             double accumulatedHeight = 0.0;

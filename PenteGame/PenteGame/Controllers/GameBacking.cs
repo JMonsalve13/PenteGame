@@ -8,18 +8,19 @@ namespace PenteGame.Controllers
 {
     public class GameBacking
     {
-        public bool?[][] Board = new bool?[19][];
+        public bool?[][] Board;
 
         public GameBacking()
         {
-            CreateBoard();
+          
         }
 
-        private void CreateBoard()
+        public void CreateBoard(int sizeNum)
         {
+            Board = new bool?[sizeNum][];
             for (int i = 0; i < Board.Length; i++)
             {
-                Board[i] = new bool?[19];
+                Board[i] = new bool?[sizeNum];
                 for (int j = 0; j < Board[i].Length; j++)
                 {
                     Board[i][j] = null;
