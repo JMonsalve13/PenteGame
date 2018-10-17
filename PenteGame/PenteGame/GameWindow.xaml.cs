@@ -21,7 +21,10 @@ namespace PenteGame
     /// </summary>
     public partial class GameWindow : Window
     {
+        int turnCounter = 0;
         List<string> players = new List<string>();
+        GameBacking game;
+        int gameSize;
         //The main game window
         public GameWindow(bool twoPlayers, string p1, string p2, int boardSize)
         {
@@ -31,7 +34,8 @@ namespace PenteGame
             players.Add(p2);
             lblGameInfo.Content = $"{players[0]}'s turn!";
 
-            GameBacking game = new GameBacking();
+            gameSize = boardSize;
+            game = new GameBacking();
             game.CreateBoard(boardSize);
 
             for (int i = 0; i < game.Board.GetLength(0); i++)
@@ -114,7 +118,17 @@ namespace PenteGame
                 col++;
             }
 
-            MessageBox.Show($"{row} {col}");
+            if (turnCounter % 2 == 0)
+            {
+                game.Board[row][col] = true;
+            }
+            else if (turnCounter % 2 != 0)
+            {
+                game.Board[row][col] = false;
+            }
+            turnCounter++;
+
+            FillGrid(game, gameSize);
         }
     }
 }
