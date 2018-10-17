@@ -43,7 +43,7 @@ namespace PenteGame.Controllers
         }
 
         /// <summary>
-        /// Checks if the a specific win condition, based on the surrounding area around a piece
+        /// Checks if the a specific win condition, based on the surrounding area around a given piece
         /// </summary>
         /// <param name="x">The x position of the checked piece</param>
         /// <param name="y">The y posiition of the checked piece</param>
@@ -52,6 +52,15 @@ namespace PenteGame.Controllers
         public void CheckWinSurroundings(int x, int y, int size, bool isFillColorSameAsPieceColor) {
             int[] XValues = { -size, 0, size };
             int[] YValues = { -size, 0, size };
+            foreach (int checkX in XValues) {
+                foreach (int checkY in YValues) {
+                    int perPieceX = x + size;
+                    int perPieceY = y + size;
+                    if (IsInsideTheBoard(perPieceX, perPieceY) && (perPieceX != x && perPieceY != y)) {
+                        CheckFill(x, y, perPieceX, perPieceY, isFillColorSameAsPieceColor ? Board[x][y] : !Board[x][y]);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -67,13 +76,14 @@ namespace PenteGame.Controllers
         }
 
         /// <summary>
-        /// Checks the pieces that lies between the first piece and the second piece
+        /// Checks the pieces that lie between the first piece and the second piece
         /// </summary>
         /// <param name="x1">X position of first piece</param>
         /// <param name="y1">Y position of first piece</param>
         /// <param name="x2">X position of second piece</param>
         /// <param name="y2">Y position of second piece</param>
-        private void CheckFill(int x1, int y1, int x2, int y2) {
+        /// <param name="checkFill">The value checked to see if something is equal to first piece or not.</param>
+        private void CheckFill(int x1, int y1, int x2, int y2, bool? checkFill) {
             bool? initialPiece = Board[y1][x1];
             bool? checkPiece = Board[y2][x2];
 
@@ -91,11 +101,16 @@ namespace PenteGame.Controllers
         private bool IsInsideTheBoard(params int[] array) {
             bool isInsideBoard = true;
             foreach (int i in array) {
-                isInsideBoard = i > 0 && i < 18;
+                isInsideBoard = i > 0 && i < Size-1;
             }
             return isInsideBoard;
         }
 
+        /// <summary>
+        /// Returns a bool signifiying if a value is negative or not.
+        /// </summary>
+        /// <param name="i">The number being checked for negativity</param>
+        /// <returns></returns>
         private bool IsNegative(int i) {
             return i < 0;
         }
