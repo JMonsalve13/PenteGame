@@ -16,43 +16,22 @@ namespace PenteGame.Controllers
 
         public int Player2CptrCounter { get; set; }
 
-        public GameBacking()
+        public GameBacking(int size)
         {
-          
-        }
-
-<<<<<<< .mine
-        public void CreateBoard(int sizeNum)
-        {
-
-
-
-
-
-=======
-        public GameBacking(int size) {
             Size = size;
             CreateBoard();
         }
 
         /// <summary>
         /// Fills the Board with uniform arrays to represent the board of pente
->>>>>>> .theirs
-<<<<<<< .mine
-
-
-=======
-        private void CreateBoard() {
+        private void CreateBoard()
+        {
             Board = new bool?[Size][];
->>>>>>> .theirs
             Board = new bool?[sizeNum][];
             for (int i = 0; i < Board.Length; i++)
             {
-<<<<<<< .mine
                 Board[i] = new bool?[sizeNum];
-=======
                 Board[i] = new bool?[Size];
->>>>>>> .theirs
                 for (int j = 0; j < Board[i].Length; j++)
                 {
                     Board[i][j] = null;
@@ -67,7 +46,8 @@ namespace PenteGame.Controllers
         /// <param name="y">The y posiition of the checked piece</param>
         /// <param name="size">The size is the length of the check of the win conition - 1(for instance a check for a consecutive 5 spaces would have a size 4)</param>
         /// <param name="isFillColorSameAsPieceColor">If the space in between the intial piece and the corelating checked piece that lies on the area is the same color as the pieces checked. (For a capture check, this would be false)</param>
-        public void CheckWinSurroundings(int x, int y, int size, bool isFillColorSameAsPieceColor) {
+        public void CheckWinSurroundings(int x, int y, int size, bool isFillColorSameAsPieceColor)
+        {
             int[] XValues = { -size, 0, size };
             int[] YValues = { -size, 0, size };
         }
@@ -78,10 +58,11 @@ namespace PenteGame.Controllers
         /// <param name="x">X position of piece</param>
         /// <param name="y">Y position of piece</param>
         /// <param name="ean">returns true if there are no errors</param>
-        public void PossibleCaptures(int x, int y,out bool ean) {
+        public void PossibleCaptures(int x, int y, out bool ean)
+        {
             CheckWinSurroundings(x, y, 3, false);
             throw new NotImplementedException();
-            
+
         }
 
         /// <summary>
@@ -91,7 +72,8 @@ namespace PenteGame.Controllers
         /// <param name="y1">Y position of first piece</param>
         /// <param name="x2">X position of second piece</param>
         /// <param name="y2">Y position of second piece</param>
-        private void CheckFill(int x1, int y1, int x2, int y2) {
+        private void CheckFill(int x1, int y1, int x2, int y2)
+        {
             bool? initialPiece = Board[y1][x1];
             bool? checkPiece = Board[y2][x2];
 
@@ -106,20 +88,23 @@ namespace PenteGame.Controllers
         /// </summary>
         /// <param name="array">The array of unpaired cooardinates provided</param>
         /// <returns></returns>
-        private bool IsInsideTheBoard(params int[] array) {
+        private bool IsInsideTheBoard(params int[] array)
+        {
             bool isInsideBoard = true;
-            foreach (int i in array) {
+            foreach (int i in array)
+            {
                 isInsideBoard = i > 0 && i < 18;
             }
             return isInsideBoard;
         }
 
-        private bool IsNegative(int i) {
+        private bool IsNegative(int i)
+        {
             return i < 0;
         }
 
-       
 
-      
+
+
     }
 }
