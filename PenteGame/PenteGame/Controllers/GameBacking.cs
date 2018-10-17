@@ -16,43 +16,20 @@ namespace PenteGame.Controllers
 
         public int Player2CptrCounter { get; set; }
 
-        public GameBacking()
-        {
-          
-        }
-
-<<<<<<< .mine
-        public void CreateBoard(int sizeNum)
-        {
-
-
-
-
-
-=======
-        public GameBacking(int size) {
-            Size = size;
-            CreateBoard();
-        }
-
+       
         /// <summary>
         /// Fills the Board with uniform arrays to represent the board of pente
->>>>>>> .theirs
-<<<<<<< .mine
+        ///ahh
+        private void CreateBoard(int sizeNum) {
 
-
-=======
-        private void CreateBoard() {
-            Board = new bool?[Size][];
->>>>>>> .theirs
             Board = new bool?[sizeNum][];
             for (int i = 0; i < Board.Length; i++)
             {
-<<<<<<< .mine
+
                 Board[i] = new bool?[sizeNum];
-=======
+
                 Board[i] = new bool?[Size];
->>>>>>> .theirs
+
                 for (int j = 0; j < Board[i].Length; j++)
                 {
                     Board[i][j] = null;
