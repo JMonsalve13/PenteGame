@@ -31,7 +31,8 @@ namespace PenteGame
             players.Add(p2);
             lblGameInfo.Content = $"{players[0]}'s turn!";
 
-            GameBacking game = new GameBacking(boardSize);
+            GameBacking game = new GameBacking();
+            game.CreateBoard(boardSize);
 
             for (int i = 0; i < game.Board.GetLength(0); i++)
             {
@@ -41,17 +42,15 @@ namespace PenteGame
                 grdGameGrid.RowDefinitions.Add(gridRow);
             }
 
-            FillGrid(game);
+            FillGrid(game, boardSize);
         }
         //Can be called to update or fill the game grid based on the given a 2d array
-        private void FillGrid(GameBacking game)
+        private void FillGrid(GameBacking game, int size)
         {
             grdGameGrid.Children.Clear();
 
-            int boardLength = game.Board.GetLength(1);
-
-            for (int i = 0; i < boardLength; i++)
-                for (int j = 0; j < boardLength; j++)
+            for (int i = 0; i < size; i++)
+                for (int j = 0; j < size; j++)
                 {
                     {
                         if (game.Board[i][j] == true)

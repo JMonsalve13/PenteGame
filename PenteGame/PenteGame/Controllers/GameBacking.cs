@@ -20,15 +20,13 @@ namespace PenteGame.Controllers
         /// <summary>
         /// Fills the Board with uniform arrays to represent the board of pente
         ///ahh
-        private void CreateBoard(int sizeNum) {
+        public void CreateBoard(int sizeNum) {
 
             Board = new bool?[sizeNum][];
             for (int i = 0; i < Board.Length; i++)
             {
 
                 Board[i] = new bool?[sizeNum];
-
-                Board[i] = new bool?[Size];
 
                 for (int j = 0; j < Board[i].Length; j++)
                 {
