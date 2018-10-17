@@ -23,5 +23,49 @@ namespace PenteGame
         {
             InitializeComponent();
         }
+        //Enable the submit button and enable player 2 text box
+        private void rbtnTwo_Click(object sender, RoutedEventArgs e)
+        {
+            tbxSecondPlayer.IsEnabled = true;
+            btnSubmit.IsEnabled = true;
+        }
+        //Enable the submit button and disable player 2 text box
+        private void rbtnOne_Click(object sender, RoutedEventArgs e)
+        {
+            tbxSecondPlayer.IsEnabled = false;
+            tbxSecondPlayer.Text = "";
+            btnSubmit.IsEnabled = true;
+        }
+        //Determines how many players there are when submit is clicked and will pass that information to gameWindow
+        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        {
+            if (rbtnOne.IsChecked == true)
+            {
+                if (!String.IsNullOrEmpty(tbxFirstPlayer.Text))
+                {
+                    GameWindow game = new GameWindow(false, tbxFirstPlayer.Text, "CPU");
+                    game.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a name for player one!");
+                }
+            }
+            if (rbtnTwo.IsChecked == true)
+            {
+                if (!String.IsNullOrEmpty(tbxFirstPlayer.Text) && !String.IsNullOrEmpty(tbxSecondPlayer.Text))
+                {
+                    GameWindow game = new GameWindow(true, tbxFirstPlayer.Text, tbxSecondPlayer.Text);
+                    game.Show();
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Player one and two need a name!");
+                }
+            }
+        }
     }
+
 }
