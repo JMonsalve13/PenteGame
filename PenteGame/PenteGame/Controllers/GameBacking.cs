@@ -18,21 +18,19 @@ namespace PenteGame.Controllers
 
         public GameBacking()
         {
+            Size = 19;
+            CreateBoard();
+        }
+
+        public GameBacking(int size) {
+            Size = size;
             CreateBoard();
         }
 
         /// <summary>
         /// Fills the Board with uniform arrays to represent the board of pente
         /// </summary>
-        private void CreateBoard()
-        {
-            CreateBoard(19);
-        }
-
-
-        private void CreateBoard(int size) {
-
-            Size = size;
+        private void CreateBoard() {
             Board = new bool?[Size][];
             for (int i = 0; i < Board.Length; i++)
             {
