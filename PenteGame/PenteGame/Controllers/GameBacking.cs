@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,53 @@ namespace PenteGame.Controllers
                     Board[i][j] = null;
                 }
             }
+        }
+
+        public bool DetectFiveInARowWin(int x, int y) {
+            bool? piece = Board[x][y];
+            bool IsFiveInARow = false;
+            int[] list = new int[4];
+            list[0] = CheckForFiveInARow(x, y, x + 1, y + 1);
+            list[1] = CheckForFiveInARow(x, y, x + 1, y - 1);
+            list[2] = CheckForFiveInARow(x, y, x, y + 1);
+            list[3] = CheckForFiveInARow(x, y, x + 1, y);
+            int max = 0;
+            for (int i = 0; i < list.Length; i++) {
+                if (max < list[i]) {
+                    max = list[i];
+                }
+            }
+            if (max >= 5) {
+                IsFiveInARow = true;
+            }
+            return IsFiveInARow;
+        }
+
+        private int CheckForFiveInARow(int x1, int y1, int x2, int y2) {
+            return CheckForFiveInARow(x1, y1, x2, y2, false);
+        }
+
+        private int CheckForFiveInARow(int x1, int y1, int x2, int y2, bool hasGoneInOtherDirection) {
+            int amount = 1;
+            if (IsInsideTheBoard(x2, y2) && Board[x1][y1] == Board[x2][y2]) {
+                amount = amount + CheckForFiveInARow(x1, y1, x2 + CheckDirection(x1, x2), y2 +  CheckDirection(y1, y2), hasGoneInOtherDirection);
+            } else if (!hasGoneInOtherDirection) {
+                amount = CheckForFiveInARow(x1, y1, x1 - CheckDirection(x1, x2), y1 - CheckDirection(y1, y2), !hasGoneInOtherDirection);
+            }
+            return amount;
+        }
+
+        private int CheckDirection(int value1, int value2) {
+            int overallValue = value1 - value2;
+            int boardProgression = 0;
+            if (overallValue < 0)
+            {
+                boardProgression = -1;
+            }
+            else if (overallValue > 0) {
+                boardProgression = 1;
+            }
+            return boardProgression;
         }
 
         /// <summary>
@@ -76,14 +124,23 @@ namespace PenteGame.Controllers
         /// <param name="x2">X position of second piece</param>
         /// <param name="y2">Y position of second piece</param>
         /// <param name="checkFill">The value checked to see if something is equal to first piece or not.</param>
-        private void CheckFill(int x1, int y1, int x2, int y2, bool? checkFill) {
+        private bool CheckFill(int x1, int y1, int x2, int y2, bool? checkFill) {
+            bool isFilled = true;
             bool? initialPiece = Board[y1][x1];
             bool? checkPiece = Board[y2][x2];
-
             if (initialPiece == checkPiece)
-            {
-                IsNegative(x2 - x1);
+            { 
+                while (x2 != x1 && y2 != y1) {
+                    y2 = y2 - CheckDirection(y1, y2);
+                    x2 = x2 - CheckDirection(x1, x2);
+                    checkPiece = Board[y2][x2];
+                    if (checkPiece == null || checkPiece != checkFill) {
+                        isFilled = false;
+                        break;
+                    }
+                }
             }
+            return isFilled;
         }
 
         /// <summary>
@@ -97,15 +154,6 @@ namespace PenteGame.Controllers
                 isInsideBoard = i >= 0 && i < Size;
             }
             return isInsideBoard;
-        }
-
-        /// <summary>
-        /// Returns a bool signifiying if a value is negative or not.
-        /// </summary>
-        /// <param name="i">The number being checked for negativity</param>
-        /// <returns></returns>
-        private bool IsNegative(int i) {
-            return i < 0;
         }
 
        
