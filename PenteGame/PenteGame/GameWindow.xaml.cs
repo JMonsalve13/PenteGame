@@ -127,6 +127,14 @@ namespace PenteGame
                 game.Board[row][col] = false;
             }
             turnCounter++;
+            if (turnCounter % 2 == 0)
+            {
+                lblGameInfo.Content = $"{players[0]}'s turn!";
+            }
+            else
+            {
+                lblGameInfo.Content = $"{players[1]}'s turn!";
+            }
 
             FillGrid(game, gameSize);
         }
