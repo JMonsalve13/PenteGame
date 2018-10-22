@@ -13,6 +13,8 @@ namespace PenteGame.Controllers
 
         public int Size { get; set; }
 
+        public bool IsPlayerOnesTurn { get; set; }
+
         public int Player1CptrCounter { get; set; }
 
         public int Player2CptrCounter { get; set; }
@@ -89,16 +91,23 @@ namespace PenteGame.Controllers
         /// <param name="x">The x position of the checked piece</param>
         /// <param name="y">The y posiition of the checked piece</param>
         /// <param name="size">The size is the length of the check of the win conition - 1(for instance a check for a consecutive 5 spaces would have a size 4)</param>
-        /// <param name="isFillColorSameAsPieceColor">If the space in between the intial piece and the corelating checked piece that lies on the area is the same color as the pieces checked. (For a capture check, this would be false)</param>
-        public void CheckWinSurroundings(int x, int y, int size, bool isFillColorSameAsPieceColor) {
+        public void CheckWinSurroundings(int x, int y, int size) {
             int[] XValues = { -size, 0, size };
             int[] YValues = { -size, 0, size };
             foreach (int checkX in XValues) {
                 foreach (int checkY in YValues) {
-                    int perPieceX = x + size;
-                    int perPieceY = y + size;
+                    int perPieceX = x + checkX;
+                    int perPieceY = y + checkY;
                     if (IsInsideTheBoard(perPieceX, perPieceY) && (perPieceX != x && perPieceY != y)) {
-                        CheckFill(x, y, perPieceX, perPieceY, isFillColorSameAsPieceColor ? Board[x][y] : !Board[x][y]);
+                        if (CheckFill(x, y, perPieceX, perPieceY, !Board[x][y])) {
+                            RemoveFill(x, y, perPieceX, perPieceY);
+                            if (IsPlayerOnesTurn) {
+                                Player1CptrCounter++;
+                            }
+                            else {
+                                Player2CptrCounter++;
+                            }
+                        }
                     }
                 }
             }
@@ -110,10 +119,14 @@ namespace PenteGame.Controllers
         /// <param name="x">X position of piece</param>
         /// <param name="y">Y position of piece</param>
         /// <param name="ean">returns true if there are no errors</param>
-        public void PossibleCaptures(int x, int y,out bool ean) {
-            CheckWinSurroundings(x, y, 3, false);
-            throw new NotImplementedException();
-            
+        public bool DidPlayerWin(int x, int y) {
+            CheckWinSurroundings(x, y, 3);
+            int PlyrCptrWin = IsPlayerOnesTurn ? Player1CptrCounter: Player2CptrCounter;
+            bool HasPlayerWon = false;
+            if (DetectFiveInARowWin(x, y) || PlyrCptrWin >= 5) {
+                HasPlayerWon = true;
+            }
+            return HasPlayerWon;
         }
 
         /// <summary>
@@ -126,14 +139,14 @@ namespace PenteGame.Controllers
         /// <param name="checkFill">The value checked to see if something is equal to first piece or not.</param>
         private bool CheckFill(int x1, int y1, int x2, int y2, bool? checkFill) {
             bool isFilled = true;
-            bool? initialPiece = Board[y1][x1];
-            bool? checkPiece = Board[y2][x2];
+            bool? initialPiece = Board[x1][y1];
+            bool? checkPiece = Board[x2][y2];
             if (initialPiece == checkPiece)
             { 
                 while (x2 != x1 && y2 != y1) {
                     y2 = y2 - CheckDirection(y1, y2);
                     x2 = x2 - CheckDirection(x1, x2);
-                    checkPiece = Board[y2][x2];
+                    checkPiece = Board[x2][y2];
                     if (checkPiece == null || checkPiece != checkFill) {
                         isFilled = false;
                         break;
@@ -141,6 +154,20 @@ namespace PenteGame.Controllers
                 }
             }
             return isFilled;
+        }
+
+        private void RemoveFill(int x1, int y1, int x2, int y2) {
+            bool? initialPiece = Board[x1][y1];
+            bool? checkPiece = Board[x2][y2];
+            if (initialPiece == checkPiece)
+            {
+                while (x2 != x1 && y2 != y1)
+                {
+                    y2 = y2 + CheckDirection(y1, y2);
+                    x2 = x2 + CheckDirection(x1, x2);
+                    Board[x2][y2] = null;
+                }
+            }
         }
 
         /// <summary>
