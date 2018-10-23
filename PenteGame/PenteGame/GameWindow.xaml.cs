@@ -118,25 +118,36 @@ namespace PenteGame
                 col++;
             }
 
-            if (turnCounter % 2 == 0)
+            if (game.IsPlayerOnesTurn)
             {
                 game.Board[row][col] = true;
             }
-            else if (turnCounter % 2 != 0)
+            else if (!game.IsPlayerOnesTurn)
             {
                 game.Board[row][col] = false;
             }
-            turnCounter++;
-            if (turnCounter % 2 == 0)
+            //TODO: Check if (x, y) pair setup is correct on DidPlayerWin
+            if (game.DidPlayerWin(row, col))
             {
-                lblGameInfo.Content = $"{players[0]}'s turn!";
+                WinningWindow popup = new WinningWindow();
+                popup.ShowDialog();
             }
             else
             {
-                lblGameInfo.Content = $"{players[1]}'s turn!";
-            }
+                turnCounter++;
+                game.IsPlayerOnesTurn = turnCounter % 2 == 0;
+                if (game.IsPlayerOnesTurn)
+                {
+                    lblGameInfo.Content = $"{players[0]}'s turn!";
+                }
+                else
+                {
+                    lblGameInfo.Content = $"{players[1]}'s turn!";
+                }
 
-            FillGrid(game, gameSize);
+                FillGrid(game, gameSize);
+
+            }
         }
     }
 }

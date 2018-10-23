@@ -25,6 +25,7 @@ namespace PenteGame.Controllers
         ///ahh
         public void CreateBoard(int sizeNum) {
 
+            Size = sizeNum;
             Board = new bool?[sizeNum][];
             for (int i = 0; i < Board.Length; i++)
             {
@@ -95,8 +96,8 @@ namespace PenteGame.Controllers
             int[] XValues = { -size, 0, size };
             int[] YValues = { -size, 0, size };
             foreach (int checkX in XValues) {
+                int perPieceX = x + checkX;
                 foreach (int checkY in YValues) {
-                    int perPieceX = x + checkX;
                     int perPieceY = y + checkY;
                     if (IsInsideTheBoard(perPieceX, perPieceY) && (perPieceX != x && perPieceY != y)) {
                         if (CheckFill(x, y, perPieceX, perPieceY, !Board[x][y])) {
@@ -120,6 +121,7 @@ namespace PenteGame.Controllers
         /// <param name="y">Y position of piece</param>
         /// <param name="ean">returns true if there are no errors</param>
         public bool DidPlayerWin(int x, int y) {
+            Board[x][y] = IsPlayerOnesTurn;
             CheckWinSurroundings(x, y, 3);
             int PlyrCptrWin = IsPlayerOnesTurn ? Player1CptrCounter: Player2CptrCounter;
             bool HasPlayerWon = false;
@@ -147,9 +149,8 @@ namespace PenteGame.Controllers
                     y2 = y2 - CheckDirection(y1, y2);
                     x2 = x2 - CheckDirection(x1, x2);
                     checkPiece = Board[x2][y2];
-                    if (checkPiece == null || checkPiece != checkFill) {
+                    if ((checkPiece == null || checkPiece != checkFill) && isFilled) {
                         isFilled = false;
-                        break;
                     }
                 }
             }
@@ -157,17 +158,13 @@ namespace PenteGame.Controllers
         }
 
         private void RemoveFill(int x1, int y1, int x2, int y2) {
-            bool? initialPiece = Board[x1][y1];
-            bool? checkPiece = Board[x2][y2];
-            if (initialPiece == checkPiece)
-            {
-                while (x2 != x1 && y2 != y1)
+
+        while (x2 != x1 && y2 != y1)
                 {
                     y2 = y2 + CheckDirection(y1, y2);
                     x2 = x2 + CheckDirection(x1, x2);
                     Board[x2][y2] = null;
                 }
-            }
         }
 
         /// <summary>
@@ -178,7 +175,10 @@ namespace PenteGame.Controllers
         private bool IsInsideTheBoard(params int[] array) {
             bool isInsideBoard = true;
             foreach (int i in array) {
-                isInsideBoard = i >= 0 && i < Size;
+                if ((i <= 0 || i > Size) && isInsideBoard)
+                {
+                    isInsideBoard = false;
+                }
             }
             return isInsideBoard;
         }
